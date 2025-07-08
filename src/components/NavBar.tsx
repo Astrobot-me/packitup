@@ -7,7 +7,7 @@ export default function Navbar(){
 
     return(
         <>
-            <div className='flex h-16 justify-between items-center bg-black/95 backdrop-blur sticky top-0 text-white px-14  '>
+            <div className='flex h-16 justify-between items-center bg-black/95 backdrop-blur sticky top-0 z-10 text-white px-14  '>
                 <div className='flex items-center justify-center space-x-1'>
                     <img src="./food-fruit.png" alt="" className='w-10' />
                     <p className='text-md font-bold'>PacKitup</p>
@@ -28,7 +28,7 @@ export default function Navbar(){
                     <Button variant={'default'} className='bg-green-600 w-16 rounded-full hover:bg-white hover:text-black'>
                         <ArrowRight size={10}/>
                     </Button>
-                    
+                     
                 </div>
             </div>
         </>
