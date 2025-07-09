@@ -1,6 +1,6 @@
 import { ArrowRight, Clock, Star, Truck } from 'lucide-react'
 import React from 'react'
-import { Button } from './button'
+import { Button } from './ui/button'
 
 function Hero() {
   return (
