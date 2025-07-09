@@ -26,7 +26,7 @@ const features = [
 export function Features() {
   return (
     <section className="py-20 bg-white dark:bg-background">
-      <div className="container">
+      <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Choose FoodieHub?</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -37,8 +37,8 @@ export function Features() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => (
             <div key={index} className="text-center group">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500 transition-colors">
-                <feature.icon className="h-8 w-8 text-orange-500 group-hover:text-white transition-colors" />
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-600 transition-colors">
+                <feature.icon className="h-8 w-8 text-green-600 group-hover:text-white transition-colors" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
               <p className="text-muted-foreground">{feature.description}</p>

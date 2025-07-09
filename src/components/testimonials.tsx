@@ -7,28 +7,28 @@ const testimonials = [
     role: "Food Enthusiast",
     content: "The food quality is exceptional and delivery is always on time. My go-to app for ordering food!",
     rating: 5,
-    avatar: "/placeholder.svg?height=60&width=60",
+    avatar: "https://avatar.iran.liara.run/public",
   },
   {
     name: "Mike Chen",
     role: "Busy Professional",
     content: "FoodieHub has made my life so much easier. Great variety and the app is super user-friendly.",
     rating: 5,
-    avatar: "/placeholder.svg?height=60&width=60",
+    avatar: "https://avatar.iran.liara.run/public",
   },
   {
     name: "Emily Davis",
     role: "College Student",
     content: "Affordable prices and delicious food. The student discounts are a huge plus!",
     rating: 5,
-    avatar: "/placeholder.svg?height=60&width=60",
+    avatar: "https://avatar.iran.liara.run/public",
   },
 ]
 
 export function Testimonials() {
   return (
     <section className="py-20 bg-white dark:bg-background">
-      <div className="container">
+      <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">What Our Customers Say</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -42,7 +42,7 @@ export function Testimonials() {
               <CardContent className="p-6">
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-orange-500 fill-current" />
+                    <Star key={i} className="h-4 w-4 text-green-600 fill-current" />
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-6">"{testimonial.content}"</p>
