@@ -11,10 +11,23 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
 
+
+type LoginFormProps= {
+  className:string; 
+  register:any;
+  handleSubmit:any; 
+  OnSubmit : (event: React.FormEvent<HTMLFormElement>) => void;
+  errors : any
+}
+
 export function LoginForm({
   className,
+  register, 
+  OnSubmit, 
+  errors, 
+  handleSubmit, 
   ...props
-}: React.ComponentProps<"div">) {
+}: LoginFormProps) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -25,16 +38,18 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={(event)=> handleSubmit(() => OnSubmit(event))}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input
-                  id="email"
-                  type="email"
+                  id="identifier"
+                  type="text"
                   placeholder="m@example.com"
                   required
+                  {...register("identifier")}
                 />
+                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
@@ -46,7 +61,8 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" required {...register("password")} />
+                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
               </div>
               <div className="flex flex-col gap-3   ">
                 <Button type="submit" className="w-full" >

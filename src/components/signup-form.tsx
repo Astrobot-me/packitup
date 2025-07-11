@@ -10,11 +10,28 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
+import { z } from "zod";
+import { SignUpFormSchema } from "../../schemas/signUpSchema"
+
+type SignUpFormSchemaType = z.input<typeof SignUpFormSchema>;
+
+type SignUpFormProps = {
+  register: UseFormRegister<SignUpFormSchemaType>;
+  errors: FieldErrors<SignUpFormSchemaType>;
+  handleSubmit: UseFormHandleSubmit<SignUpFormSchemaType>;
+  OnSubmit: (data: SignUpFormSchemaType) => Promise<void>;
+  className?: string;
+};
 
 export function SignUpForm({
+  register,
+  errors, 
+  handleSubmit,
+  OnSubmit, 
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: SignUpFormProps) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -25,16 +42,18 @@ export function SignUpForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit(OnSubmit)}>
             <div className="flex flex-col gap-6">
             <div className="grid gap-3">
                 <Label htmlFor="email">Username</Label>
                 <Input
-                  id="text"
+                  id="username"
                   type="text"
                   placeholder="shakespeare"
-                  required
+                  {...register("username")}
+                  
                 />
+              {errors?.username?.message && <p className="mt-1 text-sm text-red-600">{errors.username.message}</p>}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -42,8 +61,10 @@ export function SignUpForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  required
+                  {...register("email")}
+                  
                 />
+              {errors?.email && <p className="mt-1 text-sm text-red-600">{errors.email?.message}</p>}
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
@@ -55,7 +76,8 @@ export function SignUpForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password"   {...register("password")} />
+                {errors?.password && <p className="mt-1 text-sm text-red-600">{errors.password?.message}</p>}
               </div>
               <div className="flex flex-col gap-3   ">
                 <Button type="submit" className="w-full" >
