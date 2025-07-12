@@ -1,3 +1,4 @@
+import dbConnnet from "@/lib/database";
 import { NextRequest, NextResponse } from "next/server";
 
 type Data = {
@@ -5,7 +6,7 @@ type Data = {
 };
 
 export async function GET() {
-  
+  await dbConnnet();
   return NextResponse.json(
     { 
       name: "Hello from /api/hello" 
