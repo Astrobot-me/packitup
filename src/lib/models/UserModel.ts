@@ -67,7 +67,6 @@ const userSchema = new mongoose.Schema({
     },
     refreshToken: { 
         type:String, 
-        required:[true,"password is required field"]
     },
     orderHistory: [OrderSchema], 
     isVerified:{
@@ -81,4 +80,4 @@ const userSchema = new mongoose.Schema({
     timestamps:true
 })
 
-export const UserModel = mongoose.model("user",userSchema)
+export const UserModel = mongoose.models.user || mongoose.model("user",userSchema)

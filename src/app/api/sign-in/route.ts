@@ -1,6 +1,6 @@
 import dbConnnet from "@/lib/database";
 import { NextRequest } from "next/server";
-import { UserModel } from "../../../../models/UserModel";
+import { UserModel } from "../../../lib/models/UserModel";
 import bcyrpt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { success } from "zod";

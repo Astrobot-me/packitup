@@ -44,6 +44,28 @@ export function SignUpForm({
         <CardContent>
           <form onSubmit={handleSubmit(OnSubmit)}>
             <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-3">
+                    <Label htmlFor="email">Firstname</Label>
+                  <Input
+                    id="firstname"
+                    type="text"
+                    placeholder="shakespeare"
+                    {...register("firstname")}
+                    
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="email">Lastname</Label>
+                  <Input
+                    id="lastname"
+                    type="text"
+                    placeholder="shakespeare"
+                    {...register("lastname")}
+                    
+                  />
+                </div>
+            </div>
             <div className="grid gap-3">
                 <Label htmlFor="email">Username</Label>
                 <Input

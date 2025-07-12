@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { type NextRequest } from "next/server";
-import { UserModel } from "../../../../models/UserModel";
+import { UserModel } from "../../../lib/models/UserModel";
 import bcrypt from 'bcrypt'; 
 import sendEmail from "@/lib/sendEmail";
 import { success } from "zod";
@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
     try {
         const { firstname, lastname, username, email , password } = await req.json() ; 
-    
+        // console.log(firstname,lastname)
         const existingUsers = await UserModel.findOne({
             $or:[
                 {email},
@@ -30,9 +30,11 @@ export async function POST(req: Request) {
         }
     
         const verifyOtp = parseInt((Math.random() * 900000 ).toString(),10) +100000
+        // console.log(verifyOtp)
         const hashedPassword = await bcrypt.hash(password,10); 
+        // console.log(hashedPassword)
     
-        if (existingUsers && existingUsers?.isVerified){ 
+        if (existingUsers && !existingUsers?.isVerified){ 
             existingUsers.verifyOtp = verifyOtp; 
             existingUsers.email = email; 
             
@@ -44,13 +46,14 @@ export async function POST(req: Request) {
         
         if(!existingUsers){ 
             const newUser = new UserModel({
-                firstname,
-                lastname, 
+                firstname : firstname,
+                lastname : lastname, 
                 email,
                 username,
-                hashedPassword,
+                password : hashedPassword,
                 verifyOtp, 
                 isVerified:false, 
+                refreshToken : "",
                 orderHistory:[]
             })
             
@@ -75,7 +78,7 @@ export async function POST(req: Request) {
 
         if(!emailReciept?.success){
             return Response.json({
-                success:true,
+                success:false,
                 message:"failed to send verification email"
             },{
                 status:501

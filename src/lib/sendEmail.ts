@@ -37,7 +37,7 @@ export default async function sendEmail({ otp, email }: sendEmailProps) {
         console.log('Message sent: %s', info?.messageId);
 
         return { 
-            success: false,
+            success: true,
             message:"sending email succeeded ",
             messageId :info?.messageId
         }

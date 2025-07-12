@@ -1,6 +1,8 @@
 import {regex, z } from 'zod'; 
 
 export const SignUpFormSchema = z.object({
+    firstname:z.string(), 
+    lastname:z.string(), 
     username: z.string()
     .min(4,"username length must be 4 chars min")
     .toLowerCase()

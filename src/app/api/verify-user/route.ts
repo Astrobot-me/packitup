@@ -1,5 +1,5 @@
 import dbConnnet from "@/lib/database";
-import { UserModel } from "../../../../models/UserModel";
+import { UserModel } from "../../../lib/models/UserModel";
 import { success } from "zod";
 import { NextRequest } from "next/server";
 

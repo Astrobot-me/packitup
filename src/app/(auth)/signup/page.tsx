@@ -10,6 +10,8 @@ export default function Page() {
   const { register, handleSubmit, formState: { errors } } = useForm<z.input<typeof SignUpFormSchema>>({
     resolver: zodResolver(SignUpFormSchema),
     defaultValues: {
+      firstname:"",
+      lastname:"",
       email: "",
       username: "",
       password: "",
