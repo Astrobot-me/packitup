@@ -3,10 +3,9 @@ import { NextRequest } from "next/server";
 import { UserModel } from "../../../lib/models/UserModel";
 import bcyrpt from 'bcrypt';
 import jwt from "jsonwebtoken";
-import { success } from "zod";
 import { cookies } from "next/headers";
 
-export default async function POST(req:NextRequest){ 
+export async function POST(req:NextRequest){ 
 
     await dbConnnet(); 
     const { identifier , password } = await req.json(); 

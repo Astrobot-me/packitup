@@ -20,7 +20,12 @@ export default async function sendEmail({ otp, email }: sendEmailProps) {
         from: 'martianmoon268@gmail.com', // Sender address
         to: email,  // List of recipients
         subject: 'Hello from Packitup', // Subject line
-        text: `Here is you otp:\n<h1>Email: ${email}OTP: </h1>\n<h2>${otp}</h2>`, // Plain text body
+        text: `Here is you otp:\n<h1>Email: ${email}OTP: </h1>\n<h2>${otp}</h2>`, 
+        headers: {
+            'Content-Type': 'text/html; charset=utf-8',
+            'X-Another-Header': 'another value'
+        }
+        // Plain text body
         // html: '<p>This is a test email sent using Nodemailer.</p>' // You can also use HTML for the body
     };
 

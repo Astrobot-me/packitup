@@ -13,14 +13,14 @@ export async function POST(req: Request) {
     try {
         const { firstname, lastname, username, email , password } = await req.json() ; 
         // console.log(firstname,lastname)
-        const existingUsers = await UserModel.findOne({
+        const existingUser = await UserModel.findOne({
             $or:[
                 {email},
                 {username}
             ]
         });
     
-        if (existingUsers && existingUsers?.isVerified) { 
+        if (existingUser && existingUser?.isVerified) { 
             return Response.json({ 
                 success:false,
                 message:"User already Exists"
@@ -34,17 +34,17 @@ export async function POST(req: Request) {
         const hashedPassword = await bcrypt.hash(password,10); 
         // console.log(hashedPassword)
     
-        if (existingUsers && !existingUsers?.isVerified){ 
-            existingUsers.verifyOtp = verifyOtp; 
-            existingUsers.email = email; 
-            
-            
-            existingUsers.password = hashedPassword
-            await existingUsers.save()
+        if (existingUser && !existingUser?.isVerified){ 
+            existingUser.verifyOtp = verifyOtp; 
+            existingUser.email = email; 
+            existingUser.firstname = firstname; 
+            existingUser.lastname = lastname;            
+            existingUser.password = hashedPassword;
+            await existingUser.save()
     
         }
         
-        if(!existingUsers){ 
+        if(!existingUser){ 
             const newUser = new UserModel({
                 firstname : firstname,
                 lastname : lastname, 

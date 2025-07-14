@@ -5,8 +5,13 @@ import { SignUpFormSchema } from "../../../../schemas/signUpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Page() {
+
+  const router = useRouter(); 
+  const { toast } = useToast(); 
   const { register, handleSubmit, formState: { errors } } = useForm<z.input<typeof SignUpFormSchema>>({
     resolver: zodResolver(SignUpFormSchema),
     defaultValues: {
@@ -25,6 +30,23 @@ export default function Page() {
     });
 
     const result = await post.json()
+
+    if (result.success){ 
+      toast({ 
+          title: "Sign-In Successfull! Please Verify", 
+          description: result.message
+        }
+      )
+
+      router.push(`/verify-code/${data.username}`)
+    }else{ 
+       toast({ 
+          variant:"destructive", 
+          title: "Sign-In Failed Try Again!", 
+          description: result.message
+        }
+      )
+    }
     console.log("Result", result)
   };
 

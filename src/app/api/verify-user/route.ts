@@ -8,13 +8,11 @@ type ParamProps = {
     params: Promise<{ username: string }>
 }
 
-export default async function POST({
-    params
-}: ParamProps, req: NextRequest) {
+export async function POST( req: NextRequest) {
 
     await dbConnnet();
+    console.log(req)
     const { username, otp } = await req.json();
-
     try {
         const user = await UserModel.findOne({
             username
@@ -29,7 +27,7 @@ export default async function POST({
             })
         }
 
-        const isCorrect = user.verifyOtp === otp;
+        const isCorrect = parseInt(user.verifyOtp) === parseInt(otp);
 
         const isCodeValid = (new Date().getTime() - new Date(user.updatedAt).getTime()) < 2 * 60 * 1000;
 
@@ -44,12 +42,15 @@ export default async function POST({
 
         else if (isCodeValid) {
             if (isCorrect) {
+                user.isVerified = true; 
+                await user.save();
                 return Response.json({
                     success: true,
                     message: "User Verified Successfuly"
                 }, {
                     status: 200
                 })
+                 
             } else {
                 return Response.json({
                     success: false,

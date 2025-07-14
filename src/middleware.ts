@@ -13,11 +13,12 @@ export default async function middleware(req: NextRequest) {
             jwt.verify(token, secret);
             isTokenValid = true;
         } catch (err) {
+            console.log(err)
             isTokenValid = false;
         }
     }
 
-    // console.log("Token valid:", isTokenValid);
+    console.log("Token valid:", isTokenValid);
     // console.log("Redirecting to:", new URL("/login", req.url).toString());
 
     const url = req.nextUrl;

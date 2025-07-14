@@ -10,14 +10,19 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import z from "zod"
+import { SignInSchema } from "../../schemas/signInSchema"
+import {  FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form"
 
+
+type SignInFormSchema = z.input<typeof SignInSchema>
 
 type LoginFormProps= {
   className:string; 
-  register:any;
-  handleSubmit:any; 
-  OnSubmit : (event: React.FormEvent<HTMLFormElement>) => void;
-  errors : any
+  register:UseFormRegister<SignInFormSchema>;
+  handleSubmit:UseFormHandleSubmit<SignInFormSchema>; 
+  OnSubmit : (data: SignInFormSchema) => Promise<void>;
+  errors : FieldErrors<SignInFormSchema>
 }
 
 export function LoginForm({
@@ -38,7 +43,7 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={(event)=> handleSubmit(() => OnSubmit(event))}>
+          <form onSubmit={handleSubmit(OnSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -49,7 +54,7 @@ export function LoginForm({
                   required
                   {...register("identifier")}
                 />
-                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
+                {errors?.identifier?.message && <p className="mt-1 text-sm text-red-600">{errors?.identifier?.message}</p>}
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
@@ -62,7 +67,7 @@ export function LoginForm({
                   </a>
                 </div>
                 <Input id="password" type="password" required {...register("password")} />
-                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
+                {errors.password?.message && <p className="mt-1 text-sm text-red-600">{errors.password?.message}</p>}
               </div>
               <div className="flex flex-col gap-3   ">
                 <Button type="submit" className="w-full" >
