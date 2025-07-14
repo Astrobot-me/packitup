@@ -2,8 +2,8 @@ import dbConnnet from "@/lib/database";
 import { NextRequest } from "next/server";
 import { UserModel } from "../../../lib/models/UserModel";
 import bcyrpt from 'bcrypt';
-import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import {SignJWT} from "jose"; 
 
 export async function POST(req:NextRequest){ 
 
@@ -40,20 +40,21 @@ export async function POST(req:NextRequest){
                 })
             }
 
-            const ACCESS_TOKEN =  jwt.sign(
-                {
-                    data: user._id
-                },
-                process.env.ACCESS_SECRET || "",
-                { expiresIn:"1h" }
-            )
-            const REFRESH_TOKEN =  jwt.sign(
-                {
-                    data: user._id
-                },
-                process.env.ACCESS_SECRET || "",
-                { expiresIn:"3d" }
-            )
+            let secret = new TextEncoder().encode(process.env.ACCESS_SECRET)
+
+            const ACCESS_TOKEN =  await new SignJWT({data:user._id})
+             .setProtectedHeader({ alg: 'HS256' })
+            .setIssuedAt()
+            .setExpirationTime('1m') // You can use '10m', '1d', etc.
+            .sign(secret)
+            
+            secret = new TextEncoder().encode(process.env.REFRESH_SECRET)
+
+            const REFRESH_TOKEN =   await new SignJWT({data:user._id})
+            .setProtectedHeader({ alg: 'HS256' })
+            .setIssuedAt()
+            .setExpirationTime('2m') // You can use '10m', '1d', etc.
+            .sign(secret)
 
             const hashedRefToken = await bcyrpt.hash(REFRESH_TOKEN,10); 
 
@@ -65,7 +66,7 @@ export async function POST(req:NextRequest){
                 sameSite:"strict", 
                 httpOnly:true,
                 secure:true, 
-                maxAge: 3*24*60*1000 // 3Days 
+                maxAge: 2*1000 // 3Days 
             })
 
             cookieStore.set("accessToken", ACCESS_TOKEN)
