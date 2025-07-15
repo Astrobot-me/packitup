@@ -7,10 +7,17 @@ import { z } from "zod";
 import { SignInSchema } from "../../../../schemas/signInSchema";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import useLocalStorage from "@/lib/accesslocals";
 
 export default function Page() {
   const router = useRouter();
   const { toast } = useToast();
+  const [, setLogged] = useLocalStorage({
+    key:"isLogged",
+    value: "false"
+  })
+
+
   const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -36,7 +43,7 @@ export default function Page() {
         variant: "default",
         title: "Login Successful",
       })
-
+      setLogged("true")
       router.replace("/")
     } else {
       toast({

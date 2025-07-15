@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
-import { cookies } from "next/headers";
+
 
 export default async function middleware(req: NextRequest,) {
     const token = req.cookies.get("accessToken")?.value;
@@ -9,9 +9,7 @@ export default async function middleware(req: NextRequest,) {
 
     let payload = null;
     let isTokenValid = false;
-    if (req.nextUrl.pathname.startsWith("/api")) {
-        return NextResponse.next(); // Skip for all API routes
-    }
+    
 
     if (secret && token) {
         try {
