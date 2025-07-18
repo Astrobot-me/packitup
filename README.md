@@ -23,10 +23,10 @@ A modern and mobile-friendly website for restaurants to take online orders, mana
 
 ## 🧑‍💻 Tech Stack
 
-- **Frontend:** React, Bootstrap  
-- **Backend:** Node.js / Express  
+- **Frontend:** NextJS, Tailwind CSS  
+- **Backend:** Node.js 
 - **Database:** MongoDB  
-- **Payment:** Razorpay / Stripe  
+- **Payment:**  Stripe  
 - **Tools:** GitHub, Postman
 
 ---
