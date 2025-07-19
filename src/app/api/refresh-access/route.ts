@@ -11,20 +11,45 @@ export async function POST(req:NextRequest) {
     await dbConnnet();
     console.log("Request Recieved")
     try {
+   
+        const accessToken = req.cookies.get("accessToken")?.value 
+        let secret = new TextEncoder().encode(process.env.ACCESS_SECRET)
 
-        const token = req.cookies.get("accessToken")?.value 
-        if(!token) return Response.json({
+        if(!accessToken) { 
+            return Response.json({ 
+                success:false, 
+                message:"User is not Logged In"
+            },{ 
+                status: 403
+            })
+        }
+        
+        try {
+            await jwtVerify(accessToken.toString(), secret)
+            return Response.json({ 
+                success:true, 
+                message:"User is already Logged"
+            },{ 
+                status:200
+            }) 
+        } catch (error) {
+            //continue
+        }
+
+
+        const refToken = req.cookies.get("refreshToken")?.value
+        if(!refToken) return Response.json({
             success:false, 
             message:"Unauthorized Access"
         }, {
             status:403
         })
         
-        let secret = new TextEncoder().encode(process.env.REFRESH_SECRET)
+        secret = new TextEncoder().encode(process.env.REFRESH_SECRET)
 
         let userid; 
         try {
-            const { payload } = await jwtVerify(token.toString(),secret);
+            const { payload } = await jwtVerify(refToken.toString(),secret);
             userid = payload.data
         } catch (error) {
             return Response.json({ 
@@ -46,7 +71,7 @@ export async function POST(req:NextRequest) {
             })
         }
 
-        const isTokenSame = await bcrypt.compare(token.toString(), user.refreshToken)
+        const isTokenSame = await bcrypt.compare(refToken.toString(), user.refreshToken)
 
         if(!isTokenSame){ 
             user.refreshToken = null; 
@@ -81,11 +106,11 @@ export async function POST(req:NextRequest) {
         await user.save(); 
         
         const cookieStore = await cookies(); 
-        cookieStore.set('refreshToken', hashedToken ,{
+        cookieStore.set('refreshToken', REFRESH_TOKEN ,{
             sameSite:"strict", 
             httpOnly:true,
             secure:true, 
-            maxAge: 3*24*60*1000 // 3Days 
+            maxAge: 2*60*1000 // 3Days 
         })
         
         cookieStore.set("accessToken", ACCESS_TOKEN)
