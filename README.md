@@ -29,6 +29,99 @@ A modern and mobile-friendly website for restaurants to take online orders, mana
 - **Payment:**  Stripe  
 - **Tools:** GitHub, Postman
 
+## 🧑‍💻 Package Dependencies
+<code> mongoose, shadcnui, zod, nodemailer, jose</code>
+
+
+##  File Structure
+```javascript
+
+PACKITUP/
+├── .next/
+├── node_modules/
+├── public/
+│   ├── file.svg
+│   ├── food-fruit.png
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── schemas/
+│   ├── forgotPasswordSchema.ts
+│   ├── signInSchema.ts
+│   └── signUpSchema.ts
+├── src/
+│   ├── app/
+│   │   ├── (auth)/
+│   │   │   ├── forgot-password/
+│   │   │   │   └── page.tsx
+│   │   │   └── login/
+│   │   │       └── page.tsx
+│   │   ├── (users)/
+│   │   │   ├── menu/
+│   │   │   │   └── page.tsx
+│   │   │   └── users/[userid]/
+│   │   │       ├── checkout/
+│   │   │       │   └── page.tsx
+│   │   │       ├── dashboard/
+│   │   │       │   ├── page.tsx
+│   │   │       │   ├── page.tsx 
+│   │   │       │   ├── layout.tsx
+│   │   │       └── admin/     
+│   │   │            └── page.tsx  
+│   │   ├── api/
+│   │   │   ├── hello/
+│   │   │   ├── refresh-access/
+│   │   │   │   └── route.ts
+│   │   │   ├── sign-in/
+│   │   │   │   └── route.ts
+│   │   │   └── verify-user/
+│   │   │       └── route.ts
+│   │   ├── providers/
+│   │   │   └── auth-provider.tsx
+│   │   ├── favicon.ico
+│   │   ├── layout.tsx
+│   │   └── not-found.tsx
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── cart-provider.tsx
+│   │   │   ├── cart-sidebar.tsx
+│   │   │   └── checkout-form.tsx
+│   │   ├── features.tsx
+│   │   ├── food-catalog.tsx
+│   │   ├── footer.tsx
+│   │   ├── forgot-form.tsx
+│   │   ├── header.tsx
+│   │   ├── signup-form.tsx
+│   │   ├── testimonials.tsx
+│   │   ├── theme-provider.tsx
+│   │   └── theme-toggle.tsx
+│   ├── hooks/
+│   │   ├── use-mobile.tsx
+│   │   └── use-toast.ts
+│   ├── lib/
+│   │   ├── models/
+│   │   │   └── accesslocals.ts
+│   │   ├── database.ts
+│   │   ├── sendEmail.ts
+│   │   ├── utils.ts
+│   │   └── middleware.ts
+│   ├── styles/
+│   │   └── globals.css
+│   └── .env
+├── .gitignore
+├── components.json
+├── eslint.config.mjs
+├── image.png
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── README.md
+└── tsconfig.json
+```
+
 ---
 
 ## 📌 Note
@@ -37,7 +130,7 @@ Perfect for restaurants, cloud kitchens, or cafes looking for a stylish online o
 
 
 
-## Getting Started
+## Usage
 
 First, run the development server:
 
