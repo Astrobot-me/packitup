@@ -3,16 +3,16 @@
 import { useForm } from "react-hook-form";
 import { LoginForm } from "@/components/loginform"
 import { zodResolver } from "@hookform/resolvers/zod"
-import {  z } from "zod";
+import { z } from "zod";
 import { SignInSchema } from "../../../../schemas/signInSchema";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { signIn } from "@/lib/auth"; 
+import { signIn } from "@/lib/auth";
 
 export default function Page() {
   const router = useRouter();
   const { toast } = useToast();
- 
+
 
   const { register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
@@ -24,27 +24,48 @@ export default function Page() {
   )
 
   const OnSubmit = async (data: z.input<typeof SignInSchema>): Promise<void> => {
- 
-   
 
-    const result = {
-      success: true, 
-      message: "haha"
+    const response = await signIn('credentials', {
+      redirect: false,
+      username: data.identifier.toLowerCase(),
+      password: data.password
+    })
+
+
+    // console.log("Result object ::",result);
+
+    if (!response) {
+    
+      toast({
+        title: 'Login Failed',
+        description: 'Some Internal Error Occured, Please Try again later ! ',
+        variant: 'destructive',
+      });
     }
 
-    if (result.success) {
+
+    if (response?.error) {
+   
+      if (response.error === 'CredentialsSignin') {
+        toast({
+          title: 'Login Failed',
+          description: 'Incorrect username or password',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: response.error,
+          variant: 'destructive',
+        });
+      }
+    }
+
+    if (response && (response.url || response.ok)) {
       toast({
-        variant: "default",
-        title: "Login Successful",
+        title: "Sign In Successful!"
       })
-      
-      router.replace("/")
-    } else {
-      toast({
-        variant: "destructive",
-        title: " Login Failed",
-        description: result.message
-      })
+      router.replace('/');
     }
 
   }
