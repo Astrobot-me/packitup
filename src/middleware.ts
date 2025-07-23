@@ -1,21 +1,23 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { jwtVerify } from "jose";
-
+import { getToken } from "next-auth/jwt"
 
 export default async function middleware(req: NextRequest,) {
  
 
     
-    let isTokenValid = true;
+    const token = await getToken({ 
+      req,
+      secret:process.env.AUTH_SECRET
+    });
 
     const url = req.nextUrl;
 
-    if (!isTokenValid && url.pathname.startsWith("/users")) {
+    if (!token && url.pathname.startsWith("/users")) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
 
-    if (isTokenValid && (
+    if (token && (
         url.pathname.startsWith("/signin") ||
         url.pathname.startsWith("/verify-code") ||
         url.pathname.startsWith("/signup")

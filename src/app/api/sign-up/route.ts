@@ -63,8 +63,9 @@ export async function POST(req: Request) {
         //sending otp email
         
         const emailReciept = await sendEmail({
-            otp:verifyOtp,
-            email 
+            email, 
+            subject:"Verification code from PackitUp",
+            body:`<h1>Email: ${email}</h1>\n<h2>Otp: ${verifyOtp}</h1>`
         })
         
         if(emailReciept?.success){ 

@@ -2,8 +2,8 @@ import dbConnnet from "@/lib/database";
 import { NextRequest } from "next/server";
 import { UserModel } from "../../../lib/models/UserModel";
 import bcyrpt from 'bcrypt';
-import { cookies } from "next/headers";
-import {SignJWT} from "jose"; 
+// import { cookies } from "next/headers";
+// import {SignJWT} from "jose"; 
 
 export async function POST(req:NextRequest){ 
 
@@ -40,41 +40,40 @@ export async function POST(req:NextRequest){
                 })
             }
 
-            let secret = new TextEncoder().encode(process.env.ACCESS_SECRET)
+            // let secret = new TextEncoder().encode(process.env.ACCESS_SECRET)
 
-            const ACCESS_TOKEN =  await new SignJWT({data:user._id})
-             .setProtectedHeader({ alg: 'HS256' })
-            .setIssuedAt()
-            .setExpirationTime('1m') // You can use '10m', '1d', etc.
-            .sign(secret)
+            // const ACCESS_TOKEN =  await new SignJWT({data:user._id})
+            //  .setProtectedHeader({ alg: 'HS256' })
+            // .setIssuedAt()
+            // .setExpirationTime('1m') // You can use '10m', '1d', etc.
+            // .sign(secret)
             
-            secret = new TextEncoder().encode(process.env.REFRESH_SECRET)
+            // secret = new TextEncoder().encode(process.env.REFRESH_SECRET)
 
-            const REFRESH_TOKEN =   await new SignJWT({data:user._id})
-            .setProtectedHeader({ alg: 'HS256' })
-            .setIssuedAt()
-            .setExpirationTime('2m') // You can use '10m', '1d', etc.
-            .sign(secret)
+            // const REFRESH_TOKEN =   await new SignJWT({data:user._id})
+            // .setProtectedHeader({ alg: 'HS256' })
+            // .setIssuedAt()
+            // .setExpirationTime('2m') // You can use '10m', '1d', etc.
+            // .sign(secret)
 
-            const hashedRefToken = await bcyrpt.hash(REFRESH_TOKEN,10); 
+            // const hashedRefToken = await bcyrpt.hash(REFRESH_TOKEN,10); 
 
-            user.refreshToken = hashedRefToken; 
-            await user.save()
+            // user.refreshToken = hashedRefToken; 
+            // await user.save()
 
-            const cookieStore = await cookies(); 
-            cookieStore.set('refreshToken', hashedRefToken ,{
-                sameSite:"strict", 
-                httpOnly:true,
-                secure:true, 
-                maxAge: 2*1000 // 3Days 
-            })
+            // const cookieStore = await cookies(); 
+            // cookieStore.set('refreshToken', hashedRefToken ,{
+            //     sameSite:"strict", 
+            //     httpOnly:true,
+            //     secure:true, 
+            //     maxAge: 2*1000 // 3Days 
+            // })
 
-            cookieStore.set("accessToken", ACCESS_TOKEN)
+            // cookieStore.set("accessToken", ACCESS_TOKEN)
 
             return Response.json({
                 success:true, 
                 message: "Login Successful", 
-                accessToken : ACCESS_TOKEN
             })
 
 

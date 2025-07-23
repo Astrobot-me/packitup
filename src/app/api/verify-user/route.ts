@@ -1,14 +1,15 @@
 import dbConnnet from "@/lib/database";
 import { UserModel } from "../../../lib/models/UserModel";
-import { success } from "zod";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { jwtVerify } from "jose";
 
 
 type ParamProps = {
     params: Promise<{ username: string }>
 }
 
-export async function POST( req: NextRequest) {
+export async function POST(req: NextRequest) {
 
     await dbConnnet();
     console.log(req)
@@ -31,6 +32,10 @@ export async function POST( req: NextRequest) {
 
         const isCodeValid = (new Date().getTime() - new Date(user.updatedAt).getTime()) < 2 * 60 * 1000;
 
+        const resetToken = req.cookies.get("resetToken")?.value
+        
+
+
         if (!isCodeValid) {
             return Response.json({
                 success: false,
@@ -41,8 +46,18 @@ export async function POST( req: NextRequest) {
         }
 
         else if (isCodeValid) {
+
+            if (resetToken) {
+                let secret = new TextEncoder().encode(process.env.ACCESS_SECRET)
+                try {
+                    const { payload } = await jwtVerify(resetToken.toString(), secret);
+                    return NextResponse.redirect(new URL(`/reset-password/${user.username}`,  req.url))
+                } catch (error) {
+                }
+            }
+
             if (isCorrect) {
-                user.isVerified = true; 
+                user.isVerified = true;
                 await user.save();
                 return Response.json({
                     success: true,
@@ -50,7 +65,7 @@ export async function POST( req: NextRequest) {
                 }, {
                     status: 200
                 })
-                 
+
             } else {
                 return Response.json({
                     success: false,

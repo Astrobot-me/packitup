@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { success } from "zod";
 
 let transporter = nodemailer.createTransport({
     service: 'gmail', // or your preferred service
@@ -10,20 +9,20 @@ let transporter = nodemailer.createTransport({
 });
 
 type sendEmailProps = {
-    otp: number,
-    email: string
+    email:string,
+    subject: string,
+    body: string
 }
 
-export default async function sendEmail({ otp, email }: sendEmailProps) {
+export default async function sendEmail({ email, subject, body}: sendEmailProps) {
 
     let mailOptions = {
         from: 'martianmoon268@gmail.com', // Sender address
         to: email,  // List of recipients
-        subject: 'Hello from Packitup', // Subject line
-        text: `Here is you otp:\n<h1>Email: ${email}OTP: </h1>\n<h2>${otp}</h2>`, 
+        subject: subject || 'Hello from Packitup', // Subject line
+        text: `${body}`, 
         headers: {
             'Content-Type': 'text/html; charset=utf-8',
-            'X-Another-Header': 'another value'
         }
         // Plain text body
         // html: '<p>This is a test email sent using Nodemailer.</p>' // You can also use HTML for the body

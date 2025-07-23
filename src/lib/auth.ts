@@ -1,18 +1,20 @@
+// import "server-only"
 import NextAuth from "next-auth"
 import { NextAuthConfig } from "next-auth"
-import Credentials from "next-auth/providers/credentials"
+import CredentialsProvider from "next-auth/providers/credentials"
 import dbConnnet from "@/lib/database"
 import { UserModel } from "@/lib/models/UserModel";
 import bcrypt from "bcrypt";
 
 export const authOptions: NextAuthConfig = {
     providers: [
-        Credentials({
+        CredentialsProvider({
+            name: 'Credentials', 
             credentials: {
-                username: { label: "Username", type:"text" },
+                identifier: { label: "UsernameOrEmail", type:"text" },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(credentials: any, req): Promise<any> {
+            authorize: async (credentials: any, req) => {
                 await dbConnnet(); 
 
                 try {
@@ -74,4 +76,4 @@ export const authOptions: NextAuthConfig = {
         strategy: "jwt"
     }
 }
-export const { handlers , signIn, signOut, auth} = NextAuth(authOptions)
+export const { handlers,signIn }  = NextAuth(authOptions)

@@ -7,7 +7,7 @@ import { z } from "zod";
 import { SignInSchema } from "../../../../schemas/signInSchema";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { signIn } from "@/lib/auth";
+import { signIn } from "next-auth/react"
 
 export default function Page() {
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function Page() {
 
     const response = await signIn('credentials', {
       redirect: false,
-      username: data.identifier.toLowerCase(),
+      identifier: data.identifier.toLowerCase(),
       password: data.password
     })
 
@@ -42,7 +42,6 @@ export default function Page() {
         variant: 'destructive',
       });
     }
-
 
     if (response?.error) {
    
@@ -62,6 +61,7 @@ export default function Page() {
     }
 
     if (response && (response.url || response.ok)) {
+      console.log("Signin:" , response)
       toast({
         title: "Sign In Successful!"
       })
