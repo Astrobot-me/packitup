@@ -6,6 +6,9 @@ import dbConnnet from "@/lib/database"
 import { UserModel } from "@/lib/models/UserModel";
 import bcrypt from "bcrypt";
 
+
+export type Role = "admin" | "user"; 
+
 export const authOptions: NextAuthConfig = {
     providers: [
         CredentialsProvider({
@@ -55,6 +58,7 @@ export const authOptions: NextAuthConfig = {
                 session.user._id = token._id?.toString();
                 session.user.isVerified = token.isVerified;
                 session.user.username = token.username;
+                session.user.userrole = token.userrole;
             }
             return session
         }, 
@@ -63,6 +67,7 @@ export const authOptions: NextAuthConfig = {
                 token._id = user._id?.toString();
                 token.isVerified = user.isVerified;
                 token.username = user.username;
+                token.userrole = user.userrole;
             }   
 
             return token

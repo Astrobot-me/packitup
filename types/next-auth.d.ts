@@ -1,3 +1,4 @@
+import { Role } from '@/lib/auth';
 import 'next-auth';
 
 declare module 'next-auth'{
@@ -6,6 +7,7 @@ declare module 'next-auth'{
             _id?: string;
             isVerified?: boolean;
             username?: string;
+            userrole : Role
           } & DefaultSession['user'];
     }
 
@@ -13,6 +15,7 @@ declare module 'next-auth'{
         _id?: string;
         isVerified?: boolean;
         username?: string;
+        userrole : Role
     }
 
 
@@ -23,5 +26,6 @@ declare module 'next-auth/jwt' {
       _id?: string;
       isVerified?: boolean;
       username?: string;
+      userrole : Role
     }
   }

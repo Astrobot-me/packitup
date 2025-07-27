@@ -1,6 +1,8 @@
 import { ArrowRight, Clock, Star, Truck } from 'lucide-react'
 import React from 'react'
 import { Button } from './ui/button'
+import HEROBG from "../../assets/food-hero.jpg"
+import Image from 'next/image'
 
 function Hero() {
   return (
@@ -50,7 +52,7 @@ function Hero() {
                 <div className='relative'>
                     <div className='bg-green-600 aspect-square rounded-2xl p-5 shadow'>
                         
-                        <img src="https://placehold.co/400x400" alt="" className='w-full rounded-md object-contain' />
+                        <Image src={HEROBG} alt="" className='w-full rounded-md object-contain' />
                     </div>
                     <div className='absolute -bottom-6 -left-10'>
                             <div className='flex items-center gap-2 p-4 px-6 bg-white shadow-lg rounded'>

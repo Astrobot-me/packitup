@@ -50,6 +50,7 @@ export async function POST(req: Request) {
                 lastname : lastname, 
                 email,
                 username,
+                userrole:"user",
                 password : hashedPassword,
                 verifyOtp, 
                 isVerified:false, 
