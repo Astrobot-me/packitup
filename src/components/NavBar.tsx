@@ -33,7 +33,7 @@ export default function Navbar() {
                     {User && <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <div className="h-9 w-9 cursor-pointer">
-                                <Image src={"https://placehold.co/40/40"} alt="@student" />
+                                <img src={"https://placehold.co/40x40"} alt="@student" className='rounded-full' />
                                 {/* <AvatarFallback>SD</AvatarFallback> */}
                             </div>
                         </DropdownMenuTrigger>

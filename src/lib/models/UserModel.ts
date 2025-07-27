@@ -1,5 +1,4 @@
 import mongoose, { Document } from 'mongoose'
-import { string } from 'zod';
 
 
 export type Order = Document & { 

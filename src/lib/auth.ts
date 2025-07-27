@@ -81,4 +81,4 @@ export const authOptions: NextAuthConfig = {
         strategy: "jwt"
     }
 }
-export const { handlers,signIn }  = NextAuth(authOptions)
+export const { handlers,auth }  = NextAuth(authOptions)
