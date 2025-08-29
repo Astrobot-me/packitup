@@ -15,7 +15,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const user: User = data?.user
 
     if(status === "loading" ) return <LoadingSkeleton/>
-    if (user?.userrole !== "admin") return <Unauthenticated />
+    if (user?.role !== "admin") return <Unauthenticated />
 
     return (
         <html>

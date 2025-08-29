@@ -13,6 +13,9 @@ import Link from "next/link"
 import z from "zod"
 import { SignInSchema } from "../../schemas/signInSchema"
 import {  FieldErrors, UseFormHandleSubmit, UseFormRegister } from "react-hook-form"
+import { signIn } from "next-auth/react"
+import { Github } from "lucide-react"
+import GithubFunction from "./GithubButton"
 
 
 type SignInFormSchema = z.input<typeof SignInSchema>
@@ -82,6 +85,8 @@ export function LoginForm({
               </Link>
             </div>
           </form>
+          <hr className="min-w-lg text-neutral-400" />
+          <GithubFunction />
         </CardContent>
       </Card>
     </div>

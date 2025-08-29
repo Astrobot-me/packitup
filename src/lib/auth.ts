@@ -2,6 +2,7 @@
 import NextAuth from "next-auth"
 import { NextAuthConfig } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
+import Google from "next-auth/providers/google"
 import dbConnnet from "@/lib/database"
 import { UserModel } from "@/lib/models/UserModel";
 import bcrypt from "bcrypt";
@@ -11,6 +12,11 @@ export type Role = "admin" | "user";
 
 export const authOptions: NextAuthConfig = {
     providers: [
+        Google({
+            clientId: process.env.AUTH_GOOGLE_ID || "",
+            clientSecret: process.env.AUTH_GOOGLE_SECRET || ""
+        })
+        , 
         CredentialsProvider({
             name: 'Credentials', 
             credentials: {
@@ -58,7 +64,7 @@ export const authOptions: NextAuthConfig = {
                 session.user._id = token._id?.toString();
                 session.user.isVerified = token.isVerified;
                 session.user.username = token.username;
-                session.user.userrole = token.userrole;
+                session.user.role = token.role;
             }
             return session
         }, 
@@ -67,7 +73,7 @@ export const authOptions: NextAuthConfig = {
                 token._id = user._id?.toString();
                 token.isVerified = user.isVerified;
                 token.username = user.username;
-                token.userrole = user.userrole;
+                token.role = user.role;
             }   
 
             return token

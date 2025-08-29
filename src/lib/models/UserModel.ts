@@ -64,9 +64,9 @@ const userSchema = new mongoose.Schema({
         type:String, 
         required:[true,"password is required field"]
     },
-    userrole : { 
+    role : { 
         type:String,
-        required: [true, "Userrole is required"]
+        required: [true, "role is required"]
     },
     refreshToken: { 
         type:String, 

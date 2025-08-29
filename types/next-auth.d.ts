@@ -7,7 +7,7 @@ declare module 'next-auth'{
             _id?: string;
             isVerified?: boolean;
             username?: string;
-            userrole : Role
+            role : Role
           } & DefaultSession['user'];
     }
 
@@ -15,7 +15,7 @@ declare module 'next-auth'{
         _id?: string;
         isVerified?: boolean;
         username?: string;
-        userrole : Role
+        role : Role
     }
 
 
@@ -26,6 +26,6 @@ declare module 'next-auth/jwt' {
       _id?: string;
       isVerified?: boolean;
       username?: string;
-      userrole : Role
+      role : Role
     }
   }
